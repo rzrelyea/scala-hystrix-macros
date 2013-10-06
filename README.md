@@ -12,7 +12,8 @@ Scala macros to generate Hystrix instrumentation for Scala/Java methods.
         override protected def run:Out         =  { "println("OMG!!"); uninstrumentedInstance.uninstrumentedMethodN(args)}
      }.queue.get
   ```
-  
+
+
 * The starting point for this implementation is the [@delegate annotation macro](https://github.com/adamw/scala-macro-aop) by Adam Warski.The *hystrix* macro retains the bulk of Adam's *delegate* macro implementation. The difference lies in the *addDelegateMethods* method, chiefly in the use of *quasiquotes* in writing the trees for the Hystrix method instrumentation. An example of its use is found in the [Example object](https://github.com/hfgiii/scala-hystrix-macros/blob/master/examples/src/main/scala/com/github/hfgiii/hystrix/Example.scala). The following *implicit def* in the [*hystrix* package object](https://github.com/hfgiii/scala-hystrix-macros/blob/master/examples/src/main/scala/com/github/hfgiii/hystrix/package.scala) ,
   
   ```
