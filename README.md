@@ -3,21 +3,21 @@ scala-hystrix-macros
 
 Scala macros to generate Hystrix instrumentation for Scala methods/functions or Java methods. 
 
-* The first macro written will generate the following wrapper (pseudo) code around scala class/trait methods and java methods:
+* The first macro written generates the following wrapper code around scala class/trait methods and java methods:
 
   ```
-  def wrappedMethodN(args:In *):Out =
-     new HystrixCommand[Out](SettingsInstance) {
-        override protected def getFallback:Out = fallback() //() => Out
-        override protected def run:Out         = unwrappedInstance.unwrappedMethodN(args)
+  def instrumentedMethodN(args:In *):Out =
+     new HystrixCommand[Out](HystrixConfigurator("<wrapped class Name>","<wrapped/unwrapped method name>",THREAD) {
+        override protected def getFallback:Out =  { println("INSIDE FALLBACK!!!!!!!!!!!!!") ; instanceOf[Out].zero }
+        override protected def run:Out         =  { "println("OMG!!"); uninstrumentedInstance.uninstrumentedMethodN(args)}
      }.queue.get
   ```
   
-* The actual macro implementation still requires more study of various of scala macros types: def, implicit, annotation. A good starting point is the [@delegate annotation macro](https://github.com/adamw/scala-macro-aop). An example usage might be something like:
+* The starting point for this implementation is the [@delegate annotation macro](https://github.com/adamw/scala-macro-aop) by Adam Warski. An example of its use is found 
   
   ```
   package object hystrix {
-    implicit def toHystrix(instance:Unwrapped):Wrapped = new Wrapped(@hystrix instance) // Wrapped <:< Unwrapped
+    implicit def toHystrix(instance:Unwrapped):Wrapped = new Wrapped(instance) // Wrapped <:< Unwrapped
     …
   }
   ``` 
