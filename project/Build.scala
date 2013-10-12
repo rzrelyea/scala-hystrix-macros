@@ -9,6 +9,7 @@ object BuildSettings {
     scalaVersion := "2.10.2",
     resolvers += Resolver.sonatypeRepo("snapshots"),
     resolvers += Resolver.url("maven-remote", url("http://mvnrepository.com/")),
+    resolvers += Resolver.url("spray-repo", url("http://repo.spray.io")),
     addCompilerPlugin("org.scala-lang.plugins" % "macro-paradise" % "2.0.0-SNAPSHOT" cross CrossVersion.full)
   )
 }
@@ -38,6 +39,9 @@ object MyBuild extends Build {
     "examples",
     file("examples"),
     settings = buildSettings  ++ Seq(
-      libraryDependencies += "com.netflix.hystrix" % "hystrix-core" % "1.2.16")
+      libraryDependencies += "com.netflix.hystrix" % "hystrix-core" % "1.2.16",
+      libraryDependencies += "io.spray" % "spray-client" % "1.1-M8",
+      libraryDependencies += "io.spray" % "spray-json_2.10" % "1.2.5",
+      libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.1.4")
   ) dependsOn(macros)
 }
