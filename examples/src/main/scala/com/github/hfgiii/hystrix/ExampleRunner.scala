@@ -21,6 +21,7 @@ object  Example extends App {
   
   invokeGoogleApiMethods(googleApiCall)
   
-  //ItsJustCodeExample.hw
+  println("It's just code says:")
+  ItsJustCodeExample.hw
 
 }
